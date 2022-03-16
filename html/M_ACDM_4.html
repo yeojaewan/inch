@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/comms.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gentium+Basic:ital@0;1&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <title>Document</title>
+    <style>
+        body{background-color: #eff1f2;}
+        .hid{overflow: hidden; display: block; position: absolute; border: 0; width: 1px; height: 1px; clip: rect(1px, 1px, 1px, 1px);}
+        .container{padding: 0 3.9%;}
+
+
+        .main_header{background: url(./img/logmain_bg.png)no-repeat center/cover; width: 100%; height: 260px; padding: 21px 3.9% 0 3.9%;}
+        .main_wrap{position: relative;}
+        .main_header .logo{background: url(./img/main_logo_w.png)no-repeat center; width: 164px; height: 21px; background-size: cover;}
+        .r_time{display: inline-block; position: absolute; right: 40px; top: 0;}
+        .r_time .material-icons{font-size: 20px; vertical-align: text-top; }
+        .r_time span{color: #fff; font-weight: 500; font-size: 12px;}
+        .alram{display: inline-block; position: absolute; right: 0px; top: 0;}
+        .alram span{color: #fff; font-size: 26px;}
+        .alram.on span::after{content: ""; width: 7px; height: 7px; background: red; border-radius: 100%; position: absolute; right: 3px; top: 3px;}
+        
+        .t_info{margin: 27px 0 20px 0; display: flex; justify-content: space-between;}
+        .t_info .info_img{width: 65px; height: 65px; border-radius: 100%; background: #fff url(./img/asiana.jpg)no-repeat center; background-size: 58px; background-position: center 46%; display: inline-block; margin-top: 4px; }
+        .t_info .info_txt{width: 76%; position: relative;}
+        .t_info .info_txt .top_txt{position: absolute; top: 50%; transform: translateY(-50%);}
+        .t_info .info_txt .question_box{position: absolute; right: 0; top: 0;}
+        .t_info .info_txt .question_box button{width: 20px; height: 20px; border: 2px solid #fff; display: block; text-align: center; font-size: 13px; color: #fff; border-radius: 100%; line-height: 16px; font-weight: bold; padding-right: 1px;}
+        .t_info .info_txt h2{display: inline-block; font-size: 18px; font-weight: bold; color: #fff;}
+        .t_info .info_txt span{color: #fff;}
+
+
+        .bottom_chart{width: 100%; height: 142.5px; background: #fff; border-radius: 6px; box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);}
+        .chart_cont{padding: 10px 15px;}
+        .chart_tabs{margin: 0px; padding: 0; list-style: none; display: flex; background: #edeeef; height: 35px; border-radius: 6px;}
+        .chart_tabs li{width: 50%; background: none; color: #a8a8a8; display: inline-block; cursor: pointer; height: 28px; margin-top: 3px; text-align: center; line-height: 29px; border-radius: 6px; font-weight: bold;}
+        .chart_tabs li:first-child{margin-left: 3px;}
+        .chart_tabs li:last-child{margin-right: 3px;}
+        .chart_tabs li.current{background: #1a51be; color: #fff;}
+        .chart-tab{display: none;}
+        .chart-tab.current{display: inherit;}
+
+        .m_section{margin-top: 97.5px;}
+        .m_section ul.tabs{margin: 0px; padding: 0px; list-style: none;}
+        .m_section ul.tabs li{background: none; color: #a3a4a5; display: inline-block; padding: 0 0 2px 0; cursor: pointer; font-size: 18px; font-weight: bold;}
+        .m_section ul.tabs li:last-child{margin-left: 13px;}
+        .m_section ul.tabs li.current{color: #222; border-bottom: 3px solid #000; position: relative;}
+        .m_section ul.tabs li.on::after{content: ""; width: 8px; height: 8px; background: red; position: absolute; right: -5px; top: -2px; border-radius: 100%;}
+        .m_section .tab-content{display: none;}
+        .m_section .tab-content.current{display: inherit; padding-top: 10px;}
+        .notice_item{margin-bottom: 10px;}
+        .notice_item:last-child{margin-bottom: 0;}
+        .notice_item .notice_card{padding: 20px 11px; border-radius: 5px; background-color: #fff;}
+        .notice_item .notice_card .card_inner{display: flex; align-items: flex-start;}
+        .notice_item .notice_card .card_inner .frt_thumb{text-align: center; margin-right: 10px; width: 47px;}
+        .notice_item .notice_card .card_inner .frt_thumb.issu .material-icons{background-color: #2eb733; color: #fff; width: 25px; height: 25px; border-radius: 100%; font-size: 18px; line-height: 24px;}
+        .notice_item .notice_card .card_inner .frt_thumb.issu p{color: #2eb733; font-weight: bold; font-size: 12px;}
+        .notice_item .notice_card .card_inner .frt_thumb.emer .material-icons{background-color: #bc1a1a; color: #fff; width: 25px; height: 25px; border-radius: 100%; font-size: 18px; line-height: 24px;}
+        .notice_item .notice_card .card_inner .frt_thumb.emer p{color: #bc1a1a; font-weight: bold; font-size: 12px;}
+        .notice_item .notice_card .rt_info .name_area strong{font-weight: bold; font-size: 17px;}
+        .notice_item .notice_card .rt_info .sub_area span{font-weight: 600; font-size: 12px;}
+        .notice_item .notice_card    .rt_info .bottom_area .ea_sub{font-weight: 700; color: #666; padding-top: 3px;}
+        .climate{margin-top: 40px;}
+        .climate .climate_wrap{padding: 20px 11px; border-radius: 5px; background-color: #fff; margin-top: 15px;}
+        .climate h2{font-size: 18px; font-weight: bold; display: inline-block;}
+        .climate p{display: inline-block; background: #fff; border-radius: 5px; border: 2px solid #eee; padding: 6px 7px; color: #7f7f7f;}
+        .manual_btn{width: 56px; height: 56px; background: #00aab5; border: 3px solid #039fa9; border-radius: 100%; position: fixed; right: 0; bottom: 100px;}
+        .manual_btn a{display: block;}
+        .manual_btn a span{color: #fff; display: block; text-align: center; font-size: 14px;}
+        .manual_btn a span:first-child{font-size: 19px;padding-top: 4px;}
+
+        .content_bottomTabMenu{position: fixed; width: 100%; bottom: 0;}
+        .content_bottomTabMenu .bottom_tab_box{width: 100%; height: 57px; background-color: #fff; box-shadow : 0px 15px 20px 0;}
+        .content_bottomTabMenu .bottom_tab_box ul{display: flex;}
+        .content_bottomTabMenu .bottom_tab_box ul li{width: 20%;}
+        .content_bottomTabMenu .bottom_tab_box ul li a{display: block; padding: 5px 0 7px;}
+        .content_bottomTabMenu .bottom_tab_box ul li a span{display: block; text-align: center;}
+        .content_bottomTabMenu .bottom_tab_box ul li:first-child a span{color: #039fa9;}
+    </style>
+</head>
+<body>
+    <div class="main_header">
+        <div class="main_wrap">
+            <div>
+                <h1 class="logo"><span class="hid">logo</span></h1>
+                <div>
+                    <div class="r_time">
+                        <span class="material-icons">schedule</span>
+                        <span>UTC</span>
+                        <span id="clock"></span>
+                    </div>
+                    <div class="alram on">
+                        <button type="button" title="알림"><span class="material-icons">notifications_none</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="t_info">
+                <div class="info_img">                   
+                </div>
+                <div class="info_txt">
+                    <div class="top_txt">
+                        <h2>아시아나항공</h2>
+                        <span>운영성과</span>
+                    </div>
+                    <div class="question_box">
+                        <button href="">?</button>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom_chart ">
+                <div class="chart_cont">
+                    <ul class="chart_tabs">
+                        <li class="tab-link current" data-tab="tab-1">예측성</li>
+                        <li class="tab-link" data-tab="tab-2">정시성</li>
+                    </ul>
+                    <div id="tab-1" class="chart-tab current">
+                        aaaaaaaaaaaaaaaaaaaaaaa
+                    </div>
+                    <div id="tab-2" class="chart-tab">
+                        bbbbbbbbbbbbbbbbbbbbbbbbbb
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /// header -->
+
+    <div class="m_section container">
+        <ul class="tabs">
+            <li class="tab-link current on" data-tab="tab-1">공지사항</li>
+            <li class="tab-link" data-tab="tab-2">ATFM/NOTAM</li>
+        </ul>
+    
+        <div id="tab-1" class="tab-content current">
+            <div class="notice_list">
+                <ul>
+                    <li class="notice_item">
+                        <a href="">
+                        <div class="notice_card">
+                            <div class="card_inner">
+                                <div class="frt_thumb issu">
+                                    <span class="material-icons">notifications_none</span>
+                                    <p>발령</p>
+                                </div>
+                                <div class="rt_info">
+                                    <div class="name_area"><strong>ATFM 흐름관리실행</strong></div>
+                                    <div class="sub_area">
+                                        <span class="left_num">번호: 202201140002</span>
+                                        <span class="right_time">일시: 20220114 00:43:40</span>
+                                    </div>
+                                    <div class="bottom_area">
+                                        <div class="ea_sub">2020-01-14<em>&#183;</em>09:10
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </li>
+                    <li class="notice_item">
+                        <a href="">
+                        <div class="notice_card">
+                            <div class="card_inner">
+                                <div class="frt_thumb emer">
+                                    <span class="material-icons">bolt</span>
+                                    <p>긴급</p>
+                                </div>
+                                <div class="rt_info">
+                                    <div class="name_area">
+                                        <strong>ATFM 흐름관리실행</strong>
+                                    </div>
+                                    <div class="bottom_area">
+                                        <div class="ea_sub">2020-01-14<em>&#183;</em>09:10
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </li>
+                    <li class="notice_item">
+                        <a href="">
+                        <div class="notice_card">
+                            <div class="card_inner">
+                                <div class="frt_thumb issu">
+                                    <span class="material-icons">notifications_none</span>
+                                    <p>발령수정</p>
+                                </div>
+                                <div class="rt_info">
+                                    <div class="name_area"><strong>ATFM 흐름관리실행</strong></div>
+                                    <div class="sub_area">
+                                        <span class="left_num">번호: 202201140002</span>
+                                        <span class="right_time">일시: 20220114 00:43:40</span>
+                                    </div>
+                                    <div class="bottom_area">
+                                        <div class="ea_sub">2020-01-14<em>&#183;</em>09:10
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="tab-2" class="tab-content">
+            ffffffff
+        </div>
+
+        <div class="climate">
+            <h2>기상특보</h2>
+            <p>특보없음</p>
+            <div class="climate_wrap">
+                
+            </div>
+        </div>
+    </div>
+    <!-- /// m_section -->
+
+    <div class="manual_btn">
+        <a href="">
+            <span class="material-icons">library_books</span>
+            <span>매뉴얼</span>
+        </a>
+    </div>
+
+
+    <div class="content_bottomTabMenu">
+        <div class="bottom_tab_box">
+            <ul>
+                <li>
+                    <a href="">
+                        <span class="material-icons">home</span>
+                        <span>홈</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="material-icons">flight_land</span>
+                        <span>도착편</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="material-icons">flight_takeoff</span>
+                        <span>출발편</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="material-icons">star_border</span>
+                        <span>즐겨찾기</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="material-icons">widgets</span>
+                        <span>전체메뉴</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <script>
+        function startTime() {
+        offset = 2;
+        var today = new Date();
+        var h = today.getUTCHours();
+        var m = today.getUTCMinutes();
+        var s = today.getUTCSeconds();
+        h = h + offset;
+        if (h > 24) {
+            h = h - 24;
+        }
+        if (h < 0) {
+            h = h + 24;
+        }
+        h = checkTime(h);
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('clock').innerHTML = h + ":" + m;
+        var t = setTimeout(function() {
+            startTime()
+        }, 500);
+        }
+
+        function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i
+        };
+        return i;
+        }
+
+        startTime()
+    </script>
+    <script>
+        $(document).ready(function(){
+	
+            $('ul.tabs li').click(function(){
+                var tab_id = $(this).attr('data-tab');
+
+                $('ul.tabs li').removeClass('current');
+                $('.tab-content').removeClass('current');
+
+                $(this).addClass('current');
+                $("#"+tab_id).addClass('current');
+            });
+
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            
+            $('.chart_tabs li').click(function(){
+                var tab_id = $(this).attr('data-tab');
+    
+                $('.chart_tabs li').removeClass('current');
+                $('.chart-tab').removeClass('current');
+    
+                $(this).addClass('current');
+                $("#"+tab_id).addClass('current');
+            });
+    
+        });
+    </script>
+</body>
+</html>

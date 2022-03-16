@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>인천공항</title>
+
+</head>
+<body>
+    <div class="logHeader">
+        <div class="headWrap">
+            <div class="mainTxt">
+                <h1 class="logo ir_pm">logo</h1>
+                <p>Mobile A-CDM</p>
+            </div>
+        </div>
+    </div>
+    <!-- // header -->
+    
+    <div class="section"> 
+        <div class="sectionWrap">
+            <div class="topInputs">
+                <input type="text" placeholder="아이디를 입력해주세요." maxlength="20">
+                <input type="text" placeholder="비밀번호를 입력해주세요." maxlength="20">
+                <div class="otp">
+                    <input type="text" placeholder="OTP 번호를 입력해주세요." maxlength="20">
+                    <button type="button" class="btn"><span>인증 받기</span></button>
+                    <!--
+                    <button type="button" class="btn call"><span>인증 받기</span></button>
+                    <button type="button" class="btn comple"><span>인증 받기</span></button>
+                    -->
+                </div>
+            </div>
+
+            <div class="subArea">
+                <div class="chBox">
+                    <input type="checkbox" name="color" value="blue" id="idChkbox">
+                    <label for="idChkbox"><em></em><span>아이디 저장</span></label>
+                </div>
+                <div class="ptLog">
+                    <a href=""><img src="../img/pattern.svg" alt="메일버튼" class="ptn_img"><span>패턴 로그인</span></a>
+                </div>
+            </div>
+
+            <div class="appliArea">
+                <a href="#">계정신청</a>
+                <a href="#">계정신청조회</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottomArea">
+        <a href="" class="pri_btn"><span>개인정보처리방침</span></a>
+        <h4>Help Desk</h4>
+        <ul class="help">
+            <li>
+                <span>운영절차</span>
+                <p class="left_num">032-741-2854</p>
+                <a href="mailto:acdm_admin@airport.kr"><img src="../img/mail.svg" alt="메일버튼" class="mail_img"></a>
+            </li>
+            <li>
+                <span>시스템</span>
+                <p class="left_num">032-741-2854</p>
+                <a href="mailto:acdm_system@airport.kr"><img src="../img/mail.svg" alt="메일버튼" class="mail_img"></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="bottomBtn">
+        <button>로그인</button>
+    </div>
+    <!-- <div class="bottomBtn logSet">
+        <button>로그인</button>
+    </div> -->
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- 인증버튼에 comple 클래스 추가되면 바뀌는 텍스트 -->
+    <script>
+        $(".section .btn.comple span").text("인증 완료");
+    </script>
+</body>
+</html>

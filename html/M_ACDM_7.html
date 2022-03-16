@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/comms.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        body{background-color: #eff1f2;}
+        .hid{overflow: hidden; display: block; position: absolute; border: 0; width: 1px; height: 1px; clip: rect(1px, 1px, 1px, 1px);}
+
+        .container{padding: 0 3.9%; }
+        .top_header{width: 100%; background-color: #fff; box-shadow: -2px -2px 10px grey; padding: 22.5px 3.9% 15px 3.9%;}
+        .top_header .header_wrap{display: flex; justify-content: space-between;}
+        .top_header .header_wrap .l-st{display: inline-block;}
+        .top_header .back_btn{display: inline-block;}
+        
+        .top_header a span{width: 33px; height: 33px; display: inline-block; text-align: center; line-height: 33px;}
+        .top_header h1{display: inline-block; font-size: 22px; font-weight: bold;}
+
+        .r_st{display: inline-block;}
+        .r_time_b{display: inline-block; vertical-align: middle;}
+        .r_time_b .material-icons{font-size: 20px; vertical-align: text-top; }
+        .r_time_b span{color: #000; font-weight: 500; font-size: 12px;}
+        .alram_b{display: inline-block; position: relative;}
+        .alram_b button{vertical-align: middle;}
+        .alram_b span{color: #000; font-size: 26px;}
+        .alram_b.on span::after{content: ""; width: 7px; height: 7px; background: red; border-radius: 100%; position: absolute; right: 3px; top: 2px;}
+
+        .dates{display: flex; margin-top: 29px; justify-content: space-between;}
+        .date_wrap{position: relative; width: 37.658%; height: 45px; border: 2px solid #f0f0f0;  text-align: center; border-radius: 8px; display: flex; justify-content: space-between;}
+        .date_wrap::after{content: ""; width: 2px; height: 10px; background: #d8d8d8; position: absolute; right: 29%; top: 16px;}
+        .date_wrap::before{content: ""; width: 2px; height: 10px; background: #d8d8d8; position: absolute; left: 29%; top: 16px;}
+        .date_wrap input{font-size: 15px; font-weight: 600; background-color:transparent; text-align: center;}
+        .datePicker_one{border: 0; padding: 9px 0;}
+        .datePicker_two{background-image: url(./img/calendar_today_black_24dp.png); background-size: 36px 31px; background-repeat: no-repeat; background-position: 50% 3px;}
+        .c-datepicker-single-editor .c-datepicker-data-input{text-align: center;}
+
+        .time_sle{width: 25.61%; height: 45px; border: 2px solid #f0f0f0; border-radius: 8px;}
+        .time_sle .time_wrap a{display: flex; color: #000; justify-content: space-evenly; padding: 4px 6px;}
+        .time_sle .time_wrap a span{display: inline-block; font-weight: 600; font-size: 14px; width: 100%; text-align: center;}
+        .time_sle .time_wrap a span:nth-child(3){width: 50%;}
+
+        .search_box{margin-top: 4px; margin-bottom: 15px;}
+        .search_box input{width: 100%; border: 2px solid #f0f0f0; border-radius: 8px; padding: 10px 6px 10px 34px; background: url(./img/search_black_24dp.png)no-repeat; background-position: 7px;}
+
+        /* 팝업 */
+        .time_pop{position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); top: 0; left: 0; display: none;}
+        .time_content{width: 300px; height: 150px; background: #fff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 15px;}
+        .time_content .close_wrap{text-align: right;}
+
+
+        .select_box{ width: 33.14%; height: 45px; border: 2px solid #f0f0f0; border-radius: 8px; }
+        .select_box select{-webkit-appearance: none; -moz-appearance: none; appearance: none; background: url(./img/expand_more_black_24dp.png) no-repeat 95% 50%; font-weight: 600; border: none; padding: 6px 0 6px 10px; width: 98%;}
+        .select_box select::-ms-expand {display: none;}
+
+        .content_bottomTabMenu{position: fixed; width: 100%; bottom: 0;}
+        .content_bottomTabMenu .bottom_tab_box{width: 100%; height: 57px; background-color: #fff; box-shadow : 0px 15px 20px 0;}
+        .content_bottomTabMenu .bottom_tab_box ul{display: flex;}
+        .content_bottomTabMenu .bottom_tab_box ul li{width: 20%;}
+        .content_bottomTabMenu .bottom_tab_box ul li a{display: block; padding: 5px 0 7px;}
+        .content_bottomTabMenu .bottom_tab_box ul li a span{display: block; text-align: center;}
+        .content_bottomTabMenu .bottom_tab_box ul li:first-child a span{color: #039fa9;}
+
+        .main{margin-top: 23px;}
+        .main .search_condition .claderTime p{display: inline-block; font-size: 15px; color: #000; font-weight: 600;}
+        .main .search_condition .claderTime p > span{color: #a3a4a5; font-size: 19px; vertical-align: sub; padding-right: 5px;}
+
+    </style>
+</head>
+<body>
+    <div class="top_header">
+        <div class="header_wrap">
+            <div class="l_st">
+                <a href="#" class="back_btn"><span class="material-icons">arrow_back_ios</span></a>
+                <h1 class="main_name">ARRIVALS</h1>
+            </div>
+            <div class="r_st">
+                <div class="r_time_b">
+                    <span class="material-icons">schedule</span>
+                    <span>UTC</span>
+                    <span id="clock"></span>
+                </div>
+                <div class="alram_b on">
+                    <button type="button" title="알림"><span class="material-icons">notifications_none</span></button>
+                </div>
+            </div>
+        </div>
+        <!-- /////////// -->
+
+        <div class="dates">
+            <div class="date_wrap">
+                <input type="text" class="datePicker_one">
+                <input type="text" class="datePicker_two">
+                <input type="text" class="datePicker_tre">
+            </div>
+        
+            <div class="time_sle">
+                <div class="time_wrap">
+                    <a href="#">
+                        <span class="material-icons">schedule</span>
+                        <span class="l_time">10</span>
+                        <span>~</span>
+                        <span class="r_time">14</span>
+                    </a>
+                </div>
+            </div>
+    
+            <div class="select_box">
+                <select name="flying" id="">
+                    <option value="">전체</option>
+                    <option value="">종료편 제외</option>
+                    <option value="">종료편만</option>
+                </select>
+            </div>
+        </div>
+        <!-- ////////////// -->
+
+        <div class="search_box">
+            <input onkeyup="filter()" type="search" id="value" placeholder="편명, 도착지를 입력하세요.">
+        </div>
+        <!-- ///////////// -->
+    </div>
+
+    <div class="main container">
+
+        <div class="search_condition">
+            <div class="claderTime">
+                <p><span class="material-icons">calendar_month</span>2022-01-25</p>
+                <p><span class="material-icons">schedule</span>10~14</p>
+            </div>
+            <div class="shItem">
+                <em>총</em>
+                <span>26건</span>
+            </div>
+        </div>
+        <!-- /////////////// -->
+
+        <div class="planWrap">
+            <ul>
+                <li class="planInfo">
+                    <div class="flightImg"></div>
+                    <div class="serviceName">
+                        <strong>KE011</strong>
+                        <div class="timeLine">
+                            <span class="unit">SIBT</span>
+                            <span>12:10</span>
+                        </div>
+                        <div class="unitLine">
+                            <ul>
+                                <li>CDG</li>
+                                <li>B748</li>
+                                <li>Dep</li>
+                            </ul>
+                        </div>
+                        <a href="" class="hid bookMark">즐겨찾기</a>
+                    </div>
+                    <div class="flightTime">
+                        <ul>
+                            <li>
+                                <span>ELDT</span>
+                                <strong>11:55</strong>
+                            </li>
+                            <li>
+                                <span>ALDT</span>
+                                <strong>12:00</strong>
+                            </li>
+                            <li>
+                                <span>EIBT</span>
+                                <strong>11:55</strong>
+                            </li>
+                            <li>
+                                <span>AIBT</span>
+                                <strong>12:10</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- ///////////// -->
+    </div>
+    
+
+    <!-- bottom 버튼 -->
+    <div class="content_bottomTabMenu">
+        <div class="bottom_tab_box">
+            <ul>
+                <li>
+                    <a href="">
+                        <span class="material-icons">home</span>
+                        <span>홈</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="material-icons">flight_land</span>
+                        <span>도착편</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="material-icons">flight_takeoff</span>
+                        <span>출발편</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="material-icons">star_border</span>
+                        <span>즐겨찾기</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="material-icons">widgets</span>
+                        <span>전체메뉴</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- /////// bottom 버튼 -->
+    
+    <div class="time_pop">
+        <div class="time_content">
+            <div class="close_wrap">
+                <button class="close">닫기</button>
+            </div>
+            <div>
+                akljsdlj
+            </div>
+        </div>
+    </div>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+    <script>
+        function startTime() {
+        offset = 2;
+        var today = new Date();
+        var h = today.getUTCHours();
+        var m = today.getUTCMinutes();
+        var s = today.getUTCSeconds();
+        h = h + offset;
+        if (h > 24) {
+            h = h - 24;
+        }
+        if (h < 0) {
+            h = h + 24;
+        }
+        h = checkTime(h);
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('clock').innerHTML = h + ":" + m;
+        var t = setTimeout(function() {
+            startTime()
+        }, 500);
+        }
+
+        function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i
+        };
+        return i;
+        }
+
+        startTime()
+    </script>
+
+    <script>
+        $('.datePicker_one, .datePicker_two, .datePicker_tre').datepicker({
+            dateFormat: 'dd',
+            showOtherMonths: true
+        });
+
+        $('.datePicker_one').datepicker('setDate', '-1D');
+        $('.datePicker_two').datepicker('setDate', 'today');
+        $('.datePicker_tre').datepicker('setDate', '+1D');
+
+        $(document).ready(function(){
+            $('input.timepicker').timepicker({
+                timeFormat: 'H'
+            });
+        });
+        // 시간은 https://github.com/jonthornton/jquery-timepicker  참고해보기//
+    </script>
+    <script>
+        $(function(){
+            $(".time_wrap").click(function(){
+                $(".time_pop").fadeIn();
+            });
+            
+            $(".close").click(function(){
+                $(".time_pop").fadeOut();
+            });
+        });
+
+    </script>
+</body>
+</html>
